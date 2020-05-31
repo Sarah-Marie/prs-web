@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.prs.business.JsonResponse;
 import com.prs.business.User;
 import com.prs.db.UserRepository;
-
+@CrossOrigin()
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -120,7 +121,7 @@ JsonResponse jr = null;
 		
 		try {
 			userRepo.deleteById(id);
-			jr = JsonResponse.getInstance(id);
+			jr = JsonResponse.getInstance("User id: " + id + "successfully deleted.");
 		} catch (Exception e) {
 			jr = JsonResponse.getErrorInstance("Error deleting user: "+e.getMessage());
 			e.printStackTrace();

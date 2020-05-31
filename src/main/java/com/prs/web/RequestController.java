@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.prs.business.JsonResponse;
 import com.prs.business.Request;
 import com.prs.db.RequestRepository;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/requests")
 public class RequestController {
@@ -56,9 +57,10 @@ public class RequestController {
 	// assigned to logged in user
 
 	@GetMapping("/list-review/{id}")
-	public JsonResponse listReview(@PathVariable int userID) {
+	public JsonResponse listReview(@PathVariable int id) {
+		System.out.println("listreview for id: "+id);
 		JsonResponse jr = null;
-		List<Request> requests = requestRepo.findAllByStatusAndUserIDNot("Review", userID);
+		List<Request> requests = requestRepo.findAllByStatusAndUserIdNot("Review", id);
 
 		try {
 
@@ -185,7 +187,7 @@ public class RequestController {
 
 		try {
 			requestRepo.deleteById(id);
-			jr = JsonResponse.getInstance(id);
+			jr = JsonResponse.getInstance("Request id: " + id + "successfully deleted.");
 		} catch (Exception e) {
 			jr = JsonResponse.getErrorInstance("Error deleting request: " + e.getMessage());
 			e.printStackTrace();

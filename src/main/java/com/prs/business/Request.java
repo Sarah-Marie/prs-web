@@ -7,13 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Request {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY) 
 	private int id;
-	private int userID;
+	@ManyToOne
+	@JoinColumn(name="UserID")
+	private User user;
 	private String description;
 	private String justification;
 	private LocalDate dateNeeded;
@@ -25,11 +29,11 @@ public class Request {
 	public Request() {
 		super();
 	}
-	public Request(int id, int userID, String description, String justification, LocalDate dateNeeded,
+	public Request(int id, User user, String description, String justification, LocalDate dateNeeded,
 			String deliveryMode, String status, Double total, LocalDateTime submittedDate, String reasonForRejection) {
 		super();
 		this.id = id;
-		this.userID = userID;
+		this.user = user;
 		this.description = description;
 		this.justification = justification;
 		this.dateNeeded = dateNeeded;
@@ -45,11 +49,11 @@ public class Request {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getUserID() {
-		return userID;
+	public User getUser() {
+		return user;
 	}
-	public void setUserID(int userID) {
-		this.userID = userID;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	public String getDescription() {
 		return description;
@@ -101,7 +105,7 @@ public class Request {
 	}
 	@Override
 	public String toString() {
-		return "Request [id=" + id + ", userID=" + userID + ", description=" + description + ", justification="
+		return "Request [id=" + id + ", user=" + user + ", description=" + description + ", justification="
 				+ justification + ", dateNeeded=" + dateNeeded + ", deliveryMode=" + deliveryMode + ", status=" + status
 				+ ", total=" + total + ", submittedDate=" + submittedDate + ", reasonForRejection=" + reasonForRejection
 				+ "]";
